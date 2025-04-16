@@ -160,10 +160,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
     }
-    
-    // Logout request
-    if (isset($_GET['action']) && $_GET['action'] === 'logout') {
-        logout();
-    }
+}
+
+// Logout request
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    logout();
 }
 ?>

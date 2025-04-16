@@ -38,6 +38,7 @@
             </div>
             
             <form class="auth-form" id="signup-form" action="php/auth.php" method="post">
+                <input type="hidden" name="action" value="signup">
                 <div class="form-group">
                     <label for="username" data-i18n="username">Nom d'utilisateur</label>
                     <input type="text" id="username" name="username" required data-i18n-placeholder="username">
@@ -80,34 +81,36 @@
             const signupForm = document.getElementById('signup-form');
             
             signupForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (validateSignupForm(this)) {
-                    // In a real app, we would submit the form to the server
-                    // But for this demo, we'll just redirect to login.html
+                // Only prevent default for client-side demo mode
+                // In real PHP mode, let the form submit normally
+                if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                    e.preventDefault();
                     
-                    // Save user to localStorage for demo purposes
-                    const user = {
-                        id: 'user_' + Date.now(),
-                        username: document.getElementById('username').value,
-                        email: document.getElementById('email').value,
-                        password: document.getElementById('password').value, // In real app, this would be hashed
-                        role: 'client',
-                        profile_picture: 'images/profile-placeholder.jpg'
-                    };
-                    
-                    // Get existing users from localStorage or initialize empty array
-                    let users = JSON.parse(localStorage.getItem('users')) || [];
-                    
-                    // Add new user
-                    users.push(user);
-                    
-                    // Save users to localStorage
-                    localStorage.setItem('users', JSON.stringify(users));
-                    
-                    // Redirect to login page
-                    window.location.href = 'login.html';
+                    if (validateSignupForm(this)) {
+                        // Save user to localStorage for demo purposes
+                        const user = {
+                            id: 'user_' + Date.now(),
+                            username: document.getElementById('username').value,
+                            email: document.getElementById('email').value,
+                            password: document.getElementById('password').value, // In real app, this would be hashed
+                            role: 'client',
+                            profile_picture: 'images/profile-placeholder.jpg'
+                        };
+                        
+                        // Get existing users from localStorage or initialize empty array
+                        let users = JSON.parse(localStorage.getItem('users')) || [];
+                        
+                        // Add new user
+                        users.push(user);
+                        
+                        // Save users to localStorage
+                        localStorage.setItem('users', JSON.stringify(users));
+                        
+                        // Redirect to login page
+                        window.location.href = 'login.html';
+                    }
                 }
+                // If not localhost, the form will submit to auth.php as configured
             });
             
             // Initialize dark mode toggle

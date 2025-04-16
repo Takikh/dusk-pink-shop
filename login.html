@@ -38,6 +38,7 @@
             </div>
             
             <form class="auth-form" id="login-form" action="php/auth.php" method="post">
+                <input type="hidden" name="action" value="login">
                 <div class="form-group">
                     <label for="username" data-i18n="username">Nom d'utilisateur</label>
                     <input type="text" id="username" name="username" required data-i18n-placeholder="username">
@@ -78,23 +79,28 @@
             const loginForm = document.getElementById('login-form');
             
             loginForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (validateLoginForm(this)) {
-                    const username = document.getElementById('username').value;
-                    const password = document.getElementById('password').value;
+                // Only prevent default for client-side demo mode
+                // In real PHP mode, let the form submit normally
+                if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+                    e.preventDefault();
                     
-                    // For demo purposes, check hardcoded credentials
-                    if (username === 'admin' && password === 'admin') {
-                        window.location.href = 'admin.html';
-                    } else if (username === 'taki' && password === 'taki') {
-                        window.location.href = 'user.html';
-                    } else {
-                        // In a real app, we would submit the form to the server
-                        // But for this demo, we'll just redirect to user.html
-                        window.location.href = 'user.html';
+                    if (validateLoginForm(this)) {
+                        const username = document.getElementById('username').value;
+                        const password = document.getElementById('password').value;
+                        
+                        // For demo purposes, check hardcoded credentials
+                        if (username === 'admin' && password === 'admin') {
+                            window.location.href = 'admin.html';
+                        } else if (username === 'taki' && password === 'taki') {
+                            window.location.href = 'user.html';
+                        } else {
+                            // In a real app, we would submit the form to the server
+                            // But for this demo, we'll just redirect to user.html
+                            window.location.href = 'user.html';
+                        }
                     }
                 }
+                // If not localhost, the form will submit to auth.php as configured
             });
             
             // Initialize dark mode toggle
