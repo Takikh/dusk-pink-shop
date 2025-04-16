@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Responsive Commerce Hub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2 data-i18n="login">Connexion</h2>
+                <p data-i18n="welcome">Bienvenue sur Responsive Commerce Hub</p>
+            </div>
+            
+            <!-- Language Switcher and Dark Mode Toggle -->
+            <div class="flex justify-between mb-4">
+                <div class="lang-switcher">
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="fr" selected>Français</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+                <button type="button" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <form class="auth-form" id="login-form" action="php/auth.php" method="post">
+                <div class="form-group">
+                    <label for="username" data-i18n="username">Nom d'utilisateur</label>
+                    <input type="text" id="username" name="username" required data-i18n-placeholder="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password" data-i18n="password">Mot de passe</label>
+                    <input type="password" id="password" name="password" required data-i18n-placeholder="password">
+                </div>
+                
+                <div class="form-group flex justify-between items-center">
+                    <label class="flex items-center">
+                        <input type="checkbox" name="remember">
+                        <span class="ml-2" data-i18n="remember_me">Se souvenir de moi</span>
+                    </label>
+                    <a href="forgot-password.html" data-i18n="forgot_password">Mot de passe oublié</a>
+                </div>
+                
+                <button type="submit" class="btn btn-primary w-full" data-i18n="login_button">Se connecter</button>
+            </form>
+            
+            <div class="auth-footer">
+                <p>
+                    <span data-i18n="dont_have_account">Vous n'avez pas de compte?</span>
+                    <a href="signup.html" data-i18n="signup">S'inscrire</a>
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/dark-mode.js"></script>
+    <script src="js/lang-switcher.js"></script>
+    <script src="js/validation.js"></script>
+    <script>
+        // Login specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('login-form');
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateLoginForm(this)) {
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+                    
+                    // For demo purposes, check hardcoded credentials
+                    if (username === 'admin' && password === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else if (username === 'taki' && password === 'taki') {
+                        window.location.href = 'user.html';
+                    } else {
+                        // In a real app, we would submit the form to the server
+                        // But for this demo, we'll just redirect to user.html
+                        window.location.href = 'user.html';
+                    }
+                }
+            });
+            
+            // Initialize dark mode toggle
+            initDarkMode();
+            
+            // Initialize language switcher
+            initLanguageSwitcher();
+        });
+    </script>
+</body>
+</html>

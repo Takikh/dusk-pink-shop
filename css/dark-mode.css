@@ -1,0 +1,59 @@
+
+/* Dark Mode Styles - These will be applied when the .dark-mode class is added to the body */
+
+body.dark-mode {
+  background-color: var(--dark-bg-primary);
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode header {
+  background-color: var(--dark-bg-primary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode .sidebar {
+  background-color: var(--dark-bg-secondary);
+  border-right: 1px solid var(--dark-border-color);
+}
+
+body.dark-mode .card,
+body.dark-mode .product-card,
+body.dark-mode .stat-card,
+body.dark-mode .cart-summary,
+body.dark-mode .auth-card {
+  background-color: var(--dark-bg-secondary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: var(--dark-bg-tertiary);
+  border-color: var(--dark-border-color);
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .product-description {
+  color: var(--dark-text-secondary);
+}
+
+body.dark-mode .stat-title {
+  color: var(--dark-text-secondary);
+}
+
+body.dark-mode .cart-item {
+  border-bottom: 1px solid var(--dark-border-color);
+}
+
+body.dark-mode .cart-item-quantity button {
+  border-color: var(--dark-border-color);
+  color: var(--dark-text-primary);
+}
+
+body.dark-mode .cart-total {
+  border-top: 1px solid var(--dark-border-color);
+}
+
+body.dark-mode .auth-container {
+  background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+}

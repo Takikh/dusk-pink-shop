@@ -1,0 +1,461 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Responsive Commerce Hub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* Admin specific styles */
+        .admin-dashboard {
+            margin-top: 2rem;
+        }
+        
+        .admin-section {
+            margin-bottom: 3rem;
+        }
+        
+        .admin-section-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.5rem;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .admin-table th {
+            font-weight: 600;
+            background-color: var(--bg-secondary);
+        }
+        
+        .admin-product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        
+        .btn-edit,
+        .btn-delete {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        .btn-edit {
+            color: var(--primary);
+        }
+        
+        .btn-delete {
+            color: var(--error);
+        }
+        
+        .chart-container {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .chart-box {
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .chart-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        canvas {
+            width: 100%;
+            height: 250px;
+        }
+        
+        #product-form-container {
+            display: none;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background-color: var(--bg-secondary);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Sidebar Overlay (for mobile) -->
+    <div class="sidebar-overlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="images/admin-placeholder.jpg" alt="Profile Picture" class="profile-pic">
+            <div class="user-info">
+                <h3>Admin</h3>
+                <p>admin@example.com</p>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span data-i18n="dashboard">Tableau de bord</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="products">
+                        <i class="fas fa-box"></i>
+                        <span data-i18n="products">Produits</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="users">
+                        <i class="fas fa-users"></i>
+                        <span data-i18n="users">Utilisateurs</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="login.html">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span data-i18n="logout">Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="flex justify-between items-center">
+            <div class="flex items-center">
+                <button type="button" class="sidebar-toggle mr-4">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="logo">Admin <span>Dashboard</span></h1>
+            </div>
+            
+            <div class="flex items-center">
+                <div class="lang-switcher">
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="fr" selected>Français</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+                <button type="button" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Dashboard Section -->
+        <section id="dashboard-section" class="content-section">
+            <div class="section-header">
+                <h2 data-i18n="dashboard">Tableau de bord</h2>
+            </div>
+            
+            <div class="admin-dashboard">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-users">0</div>
+                        <div class="stat-title" data-i18n="total_users">Nombre total d'utilisateurs</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-products">0</div>
+                        <div class="stat-title" data-i18n="total_products">Nombre total de produits</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-product-value">0 DZD</div>
+                        <div class="stat-title" data-i18n="total_product_value">Valeur totale des produits</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-cart-value">0 DZD</div>
+                        <div class="stat-title" data-i18n="total_cart_value">Valeur totale du panier</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-number" id="zakat-amount">0 DZD</div>
+                        <div class="stat-title" data-i18n="zakat_amount">Montant de la Zakat (2,5%)</div>
+                    </div>
+                </div>
+                
+                <!-- Charts -->
+                <div class="chart-container">
+                    <div class="chart-box">
+                        <h3 class="chart-title">User Roles Distribution</h3>
+                        <canvas id="user-role-chart"></canvas>
+                    </div>
+                    
+                    <div class="chart-box">
+                        <h3 class="chart-title">Top Products by Value</h3>
+                        <canvas id="product-value-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="products">Produits</h2>
+            </div>
+            
+            <button type="button" class="btn btn-primary mb-4" id="add-product-btn" data-i18n="add_product">Ajouter un produit</button>
+            
+            <!-- Product Form -->
+            <div id="product-form-container">
+                <h3 id="form-title" data-i18n="add_product">Ajouter un produit</h3>
+                
+                <form id="product-form">
+                    <input type="hidden" id="product-id" name="id">
+                    
+                    <div class="form-group">
+                        <label for="product-name" data-i18n="product_name">Nom du produit</label>
+                        <input type="text" id="product-name" name="name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-price" data-i18n="product_price">Prix</label>
+                        <input type="number" id="product-price" name="price" step="0.01" min="0" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-description" data-i18n="product_description">Description</label>
+                        <textarea id="product-description" name="description" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="product-image" data-i18n="product_image">Image du produit</label>
+                        <input type="file" id="product-image" name="image" accept="image/*">
+                    </div>
+                    
+                    <div class="flex justify-between">
+                        <button type="submit" class="btn btn-primary" data-i18n="save_product">Enregistrer le produit</button>
+                        <button type="button" class="btn btn-outline" id="cancel-form-btn" data-i18n="cancel">Annuler</button>
+                    </div>
+                </form>
+            </div>
+            
+            <div class="admin-products">
+                <!-- Products will be loaded here -->
+            </div>
+        </section>
+        
+        <!-- Users Section -->
+        <section id="users-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="users">Utilisateurs</h2>
+            </div>
+            
+            <div class="admin-users">
+                <!-- Users will be loaded here -->
+            </div>
+        </section>
+    </div>
+    
+    <!-- Notification Element -->
+    <div class="notification"></div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/lang-switcher.js"></script>
+    <script src="js/admin.js"></script>
+    <script>
+        // Admin specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active section
+            const sectionLinks = document.querySelectorAll('.sidebar-nav a[data-section]');
+            const sections = document.querySelectorAll('.content-section');
+            
+            sectionLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show selected section
+                    document.getElementById(sectionId + '-section').style.display = 'block';
+                    
+                    // Set active link
+                    sectionLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth <= 991) {
+                        document.querySelector('.sidebar').classList.remove('show');
+                        document.querySelector('.sidebar-overlay').classList.remove('show');
+                    }
+                });
+            });
+            
+            // Add product button click
+            const addProductBtn = document.getElementById('add-product-btn');
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function() {
+                    // Reset form
+                    document.getElementById('product-form').reset();
+                    document.getElementById('product-id').value = '';
+                    
+                    // Change form title
+                    document.getElementById('form-title').textContent = 'Add Product';
+                    
+                    // Show form
+                    document.getElementById('product-form-container').style.display = 'block';
+                    
+                    // Scroll to form
+                    document.getElementById('product-form-container').scrollIntoView({ behavior: 'smooth' });
+                });
+            }
+            
+            // Cancel form button click
+            const cancelFormBtn = document.getElementById('cancel-form-btn');
+            if (cancelFormBtn) {
+                cancelFormBtn.addEventListener('click', function() {
+                    // Hide form
+                    document.getElementById('product-form-container').style.display = 'none';
+                });
+            }
+            
+            // Initialize demo data
+            initializeDemoData();
+            
+            // Display statistics
+            displayStatistics();
+            
+            // Load admin products
+            loadAdminProducts();
+            
+            // Load admin users
+            loadAdminUsers();
+        });
+        
+        // Initialize demo data
+        function initializeDemoData() {
+            // Check if products exist in localStorage
+            if (!localStorage.getItem('products')) {
+                // Demo products data
+                const demoProducts = [
+                    {
+                        id: 'product1',
+                        name: 'Smartphone Pro X',
+                        price: 80000,
+                        description: 'Un smartphone puissant avec un écran AMOLED de 6.5 pouces et une batterie longue durée.',
+                        image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    },
+                    {
+                        id: 'product2',
+                        name: 'Casque audio sans fil',
+                        price: 15000,
+                        description: 'Casque audio Bluetooth avec réduction de bruit active et une autonomie de 30 heures.',
+                        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    },
+                    {
+                        id: 'product3',
+                        name: 'Montre connectée Sport',
+                        price: 22000,
+                        description: 'Montre connectée avec GPS, suivi de la fréquence cardiaque et étanche jusqu\'à 50m.',
+                        image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    },
+                    {
+                        id: 'product4',
+                        name: 'Ordinateur portable Pro',
+                        price: 120000,
+                        description: 'Ordinateur portable léger et puissant avec processeur i7, 16GB de RAM et 512GB SSD.',
+                        image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    },
+                    {
+                        id: 'product5',
+                        name: 'Enceinte Bluetooth portable',
+                        price: 8000,
+                        description: 'Enceinte Bluetooth waterproof avec un son puissant et une autonomie de 12 heures.',
+                        image: 'https://images.unsplash.com/photo-1564424224827-cd24b8915874?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    },
+                    {
+                        id: 'product6',
+                        name: 'Tablette tactile',
+                        price: 50000,
+                        description: 'Tablette tactile avec écran 10.2 pouces, 64GB de stockage et compatible avec stylet.',
+                        image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                    }
+                ];
+                
+                // Save demo products to localStorage
+                localStorage.setItem('products', JSON.stringify(demoProducts));
+            }
+            
+            // Check if users exist in localStorage
+            if (!localStorage.getItem('users')) {
+                // Demo users data
+                const demoUsers = [
+                    {
+                        id: 'user1',
+                        username: 'admin',
+                        email: 'admin@example.com',
+                        password: 'admin', // In real app, this would be hashed
+                        role: 'admin',
+                        profile_picture: 'images/admin-placeholder.jpg'
+                    },
+                    {
+                        id: 'user2',
+                        username: 'taki',
+                        email: 'taki@example.com',
+                        password: 'taki', // In real app, this would be hashed
+                        role: 'client',
+                        profile_picture: 'images/profile-placeholder.jpg'
+                    },
+                    {
+                        id: 'user3',
+                        username: 'client1',
+                        email: 'client1@example.com',
+                        password: 'password123', // In real app, this would be hashed
+                        role: 'client',
+                        profile_picture: 'images/profile-placeholder.jpg'
+                    }
+                ];
+                
+                // Save demo users to localStorage
+                localStorage.setItem('users', JSON.stringify(demoUsers));
+            }
+        }
+    </script>
+</body>
+</html>

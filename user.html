@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Client Dashboard - Responsive Commerce Hub</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/colors.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar Overlay (for mobile) -->
+    <div class="sidebar-overlay"></div>
+    
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <img src="images/profile-placeholder.jpg" alt="Profile Picture" class="profile-pic">
+            <div class="user-info">
+                <h3 id="user-name">Client</h3>
+                <p id="user-email">client@example.com</p>
+            </div>
+        </div>
+        
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="active" data-section="home">
+                        <i class="fas fa-home"></i>
+                        <span data-i18n="home">Accueil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="products">
+                        <i class="fas fa-tags"></i>
+                        <span data-i18n="products">Produits</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span data-i18n="cart">Panier</span>
+                        <span class="cart-count">0</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" data-section="profile">
+                        <i class="fas fa-user"></i>
+                        <span data-i18n="profile">Profil</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="login.html">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span data-i18n="logout">Déconnexion</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="flex justify-between items-center">
+            <div class="flex items-center">
+                <button type="button" class="sidebar-toggle mr-4">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="logo">Responsive <span>Commerce Hub</span></h1>
+            </div>
+            
+            <div class="flex items-center">
+                <div class="lang-switcher">
+                    <select id="language-selector">
+                        <option value="en">English</option>
+                        <option value="fr" selected>Français</option>
+                        <option value="ar">العربية</option>
+                    </select>
+                </div>
+                <button type="button" class="dark-mode-toggle" title="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </header>
+        
+        <!-- Home Section -->
+        <section id="home-section" class="content-section">
+            <div class="section-header">
+                <h2 data-i18n="welcome">Bienvenue sur Responsive Commerce Hub</h2>
+                <p data-i18n="welcome_message">Votre solution tout-en-un pour tous vos besoins d'achat</p>
+            </div>
+            
+            <div class="featured-products">
+                <h3 data-i18n="featured_products">Produits en vedette</h3>
+                <div class="product-grid">
+                    <!-- Featured products will be loaded here -->
+                </div>
+            </div>
+        </section>
+        
+        <!-- Products Section -->
+        <section id="products-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="products">Produits</h2>
+            </div>
+            
+            <div class="search-filter">
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Rechercher..." data-i18n-placeholder="search">
+                    <button type="button" id="search-button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                
+                <div class="filter-box">
+                    <h3 data-i18n="filter_by">Filtrer par</h3>
+                    
+                    <div class="filter-group">
+                        <label data-i18n="price_range">Fourchette de prix</label>
+                        <div class="price-range">
+                            <input type="number" id="price-min" placeholder="Min" min="0">
+                            <span>-</span>
+                            <input type="number" id="price-max" placeholder="Max" min="0">
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="apply-filter" class="btn btn-primary" data-i18n="apply_filter">Appliquer le filtre</button>
+                    <button type="button" id="reset-filter" class="btn btn-outline" data-i18n="reset_filter">Réinitialiser le filtre</button>
+                </div>
+            </div>
+            
+            <div class="product-grid" id="products-grid">
+                <!-- Products will be loaded here -->
+            </div>
+        </section>
+        
+        <!-- Cart Section -->
+        <section id="cart-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="cart">Panier</h2>
+            </div>
+            
+            <div class="cart-items">
+                <!-- Cart items will be loaded here -->
+            </div>
+            
+            <div class="cart-summary" style="display: none;">
+                <div class="cart-total">
+                    <span data-i18n="total">Total</span>
+                    <span class="cart-total-value">0 DZD</span>
+                </div>
+                
+                <button type="button" id="checkout-btn" class="btn btn-primary w-full mt-4" data-i18n="checkout">Commander</button>
+            </div>
+        </section>
+        
+        <!-- Profile Section -->
+        <section id="profile-section" class="content-section" style="display: none;">
+            <div class="section-header">
+                <h2 data-i18n="profile">Profil</h2>
+            </div>
+            
+            <div class="profile-content">
+                <div class="profile-picture-container">
+                    <img src="images/profile-placeholder.jpg" alt="Profile Picture" class="profile-picture">
+                    <button type="button" class="btn btn-outline" data-i18n="update_profile_picture">Mettre à jour la photo de profil</button>
+                </div>
+                
+                <div class="profile-info">
+                    <h3 data-i18n="personal_info">Informations personnelles</h3>
+                    
+                    <form id="profile-form">
+                        <div class="form-group">
+                            <label for="profile-username" data-i18n="username">Nom d'utilisateur</label>
+                            <input type="text" id="profile-username" name="username" value="Client">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="profile-email" data-i18n="email">Email</label>
+                            <input type="email" id="profile-email" name="email" value="client@example.com">
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" data-i18n="save_changes">Enregistrer les modifications</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Notification Element -->
+    <div class="notification"></div>
+    
+    <!-- JavaScript Files -->
+    <script src="js/main.js"></script>
+    <script src="js/dark-mode.js"></script>
+    <script src="js/lang-switcher.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // User specific script
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set active section
+            const sectionLinks = document.querySelectorAll('.sidebar-nav a[data-section]');
+            const sections = document.querySelectorAll('.content-section');
+            
+            sectionLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // Hide all sections
+                    sections.forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    // Show selected section
+                    document.getElementById(sectionId + '-section').style.display = 'block';
+                    
+                    // Set active link
+                    sectionLinks.forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                    
+                    // Close sidebar on mobile
+                    if (window.innerWidth <= 991) {
+                        document.querySelector('.sidebar').classList.remove('show');
+                        document.querySelector('.sidebar-overlay').classList.remove('show');
+                    }
+                });
+            });
+            
+            // Load demo products
+            loadDemoProducts();
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Profile form submit
+            const profileForm = document.getElementById('profile-form');
+            if (profileForm) {
+                profileForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Update user info in sidebar
+                    document.getElementById('user-name').textContent = document.getElementById('profile-username').value;
+                    document.getElementById('user-email').textContent = document.getElementById('profile-email').value;
+                    
+                    // Show success notification
+                    showNotification('Profile updated successfully!');
+                });
+            }
+            
+            // Search and filter functionality
+            const searchInput = document.getElementById('search-input');
+            const searchButton = document.getElementById('search-button');
+            const applyFilterButton = document.getElementById('apply-filter');
+            const resetFilterButton = document.getElementById('reset-filter');
+            
+            if (searchButton) {
+                searchButton.addEventListener('click', function() {
+                    filterProducts();
+                });
+            }
+            
+            if (searchInput) {
+                searchInput.addEventListener('keyup', function(e) {
+                    if (e.key === 'Enter') {
+                        filterProducts();
+                    }
+                });
+            }
+            
+            if (applyFilterButton) {
+                applyFilterButton.addEventListener('click', function() {
+                    filterProducts();
+                });
+            }
+            
+            if (resetFilterButton) {
+                resetFilterButton.addEventListener('click', function() {
+                    document.getElementById('search-input').value = '';
+                    document.getElementById('price-min').value = '';
+                    document.getElementById('price-max').value = '';
+                    loadDemoProducts();
+                });
+            }
+        });
+        
+        // Load demo products
+        function loadDemoProducts() {
+            // Demo products data
+            const demoProducts = [
+                {
+                    id: 'product1',
+                    name: 'Smartphone Pro X',
+                    price: 80000,
+                    description: 'Un smartphone puissant avec un écran AMOLED de 6.5 pouces et une batterie longue durée.',
+                    image: 'https://images.unsplash.com/photo-1510557880182-3d4d3cba35a5?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                },
+                {
+                    id: 'product2',
+                    name: 'Casque audio sans fil',
+                    price: 15000,
+                    description: 'Casque audio Bluetooth avec réduction de bruit active et une autonomie de 30 heures.',
+                    image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                },
+                {
+                    id: 'product3',
+                    name: 'Montre connectée Sport',
+                    price: 22000,
+                    description: 'Montre connectée avec GPS, suivi de la fréquence cardiaque et étanche jusqu\'à 50m.',
+                    image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                },
+                {
+                    id: 'product4',
+                    name: 'Ordinateur portable Pro',
+                    price: 120000,
+                    description: 'Ordinateur portable léger et puissant avec processeur i7, 16GB de RAM et 512GB SSD.',
+                    image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                },
+                {
+                    id: 'product5',
+                    name: 'Enceinte Bluetooth portable',
+                    price: 8000,
+                    description: 'Enceinte Bluetooth waterproof avec un son puissant et une autonomie de 12 heures.',
+                    image: 'https://images.unsplash.com/photo-1564424224827-cd24b8915874?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                },
+                {
+                    id: 'product6',
+                    name: 'Tablette tactile',
+                    price: 50000,
+                    description: 'Tablette tactile avec écran 10.2 pouces, 64GB de stockage et compatible avec stylet.',
+                    image: 'https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60'
+                }
+            ];
+            
+            // Save demo products to localStorage
+            localStorage.setItem('products', JSON.stringify(demoProducts));
+            
+            // Generate HTML for products
+            let productsHTML = '';
+            
+            demoProducts.forEach(product => {
+                productsHTML += `
+                    <div class="product-card" data-id="${product.id}">
+                        <img src="${product.image}" alt="${product.name}" class="product-image">
+                        <div class="product-info">
+                            <h3 class="product-name">${product.name}</h3>
+                            <p class="product-price">${product.price.toFixed(2)} DZD</p>
+                            <p class="product-description">${product.description}</p>
+                            <button type="button" class="btn btn-primary" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+                                <i class="fas fa-cart-plus"></i> <span data-i18n="add_to_cart">Ajouter au panier</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            // Display products in product grids
+            const productGrids = document.querySelectorAll('.product-grid');
+            productGrids.forEach(grid => {
+                grid.innerHTML = productsHTML;
+            });
+        }
+        
+        // Filter products
+        function filterProducts() {
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const minPrice = document.getElementById('price-min').value ? parseFloat(document.getElementById('price-min').value) : 0;
+            const maxPrice = document.getElementById('price-max').value ? parseFloat(document.getElementById('price-max').value) : Infinity;
+            
+            // Get products from localStorage
+            const products = JSON.parse(localStorage.getItem('products')) || [];
+            
+            // Filter products
+            const filteredProducts = products.filter(product => {
+                const matchesSearch = searchTerm === '' || product.name.toLowerCase().includes(searchTerm) || product.description.toLowerCase().includes(searchTerm);
+                const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
+                
+                return matchesSearch && matchesPrice;
+            });
+            
+            // Generate HTML for filtered products
+            let productsHTML = '';
+            
+            if (filteredProducts.length === 0) {
+                productsHTML = '<p class="text-center">No products found</p>';
+            } else {
+                filteredProducts.forEach(product => {
+                    productsHTML += `
+                        <div class="product-card" data-id="${product.id}">
+                            <img src="${product.image}" alt="${product.name}" class="product-image">
+                            <div class="product-info">
+                                <h3 class="product-name">${product.name}</h3>
+                                <p class="product-price">${product.price.toFixed(2)} DZD</p>
+                                <p class="product-description">${product.description}</p>
+                                <button type="button" class="btn btn-primary" onclick="addToCart('${product.id}', '${product.name}', ${product.price}, '${product.image}')">
+                                    <i class="fas fa-cart-plus"></i> <span data-i18n="add_to_cart">Ajouter au panier</span>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Display filtered products
+            document.getElementById('products-grid').innerHTML = productsHTML;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+
+:root {
+  /* Primary Colors */
+  --primary: #9b87f5;
+  --primary-dark: #7E69AB;
+  --primary-light: #beb3f7;
+  
+  /* Secondary Colors */
+  --secondary: #D946EF;
+  --secondary-dark: #B233C7;
+  --secondary-light: #FFDEE2;
+  
+  /* Neutrals */
+  --dark: #221F26;
+  --gray-dark: #403E43;
+  --gray: #6D6A72;
+  --gray-light: #BEBBC1;
+  --light: #F5F5F7;
+  --white: #FFFFFF;
+  
+  /* Functional Colors */
+  --success: #4CAF50;
+  --warning: #FF9800;
+  --error: #F44336;
+  --info: #2196F3;
+  
+  /* Text Colors */
+  --text-primary: #222222;
+  --text-secondary: #555555;
+  --text-tertiary: #888888;
+  --text-light: #FFFFFF;
+  
+  /* Border Colors */
+  --border-color: #EEEEEE;
+  --border-dark: #CCCCCC;
+  
+  /* Background Colors */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F9F9F9;
+  --bg-tertiary: #EEEEEE;
+  
+  /* Dark Mode Colors - Will be applied via JavaScript */
+  --dark-bg-primary: #221F26;
+  --dark-bg-secondary: #2C2832;
+  --dark-bg-tertiary: #403E43;
+  --dark-text-primary: #F5F5F7;
+  --dark-text-secondary: #BEBBC1;
+  --dark-border-color: #403E43;
+}
+
+/* Dark Mode Class - Will be toggled via JavaScript */
+.dark-mode {
+  --bg-primary: var(--dark-bg-primary);
+  --bg-secondary: var(--dark-bg-secondary);
+  --bg-tertiary: var(--dark-bg-tertiary);
+  --text-primary: var(--dark-text-primary);
+  --text-secondary: var(--dark-text-secondary);
+  --border-color: var(--dark-border-color);
+}
+
+/* RTL Support for Arabic */
+[dir="rtl"] {
+  /* RTL specific adjustments */
+  text-align: right;
+}
